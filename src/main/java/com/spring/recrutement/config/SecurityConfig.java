@@ -69,6 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().authorizeRequests()
 				.antMatchers("/app/**").permitAll()
 				.antMatchers("/intervention/**").hasAuthority("INTERVENTION")
+                .antMatchers("/siteradio/**","/cellule/**","/document/**").hasAuthority("USER")
+                .antMatchers("/siteradio/**","/cellule/**","/document/**").hasAuthority("MANAGER")
+                .antMatchers("/user/all","/siteradio/**","/cellule/**","/document/**").hasAuthority("ENGINEER")
+                .antMatchers("/user/**","/siteradio/**","/document/**","/gouvernement/**","/cellule/**","/role/**").hasAuthority("ADMIN")
 				.anyRequest()
 				.authenticated();
 
