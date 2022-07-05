@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "User_tbl")

@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ import com.spring.recrutement.model.SiteRadio;
 import com.spring.recrutement.payload.DocumentRequest;
 import com.spring.recrutement.repo.DocumentRepo;
 import com.spring.recrutement.repo.GouvernementRepo;
+import com.spring.recrutement.repo.SiteRadioRepo;
 
 @RestController
 @RequestMapping("/document")
@@ -59,10 +61,6 @@ public class DocumentController {
     @PostMapping("/add")
     public ResponseEntity<Document> addDocument(@RequestBody DocumentRequest document) {
 
-        /*
-         * final Gouvernement _gouvernement =
-         * gouvernementService.findGouvernementById(document.getGouvernement_id());
-         */
         final Gouvernement _gouvernement = gouvernementRepo
                 .findByNom(document.getGouvernement_nom()).get();
         final SiteRadio _siteRadio = siteRadioService.findSiteRadioById(document.getSiteRadio_id());
@@ -71,10 +69,32 @@ public class DocumentController {
                 _cellule.setSiteRadio(null);
             }
         });
-        final Document _document = new Document(_gouvernement, _siteRadio, document.getTypeDoc(), null);
+        final Document _document = new Document(_gouvernement, _siteRadio,
+                document.getTypeDoc(), null);
 
         Document newDocument = documentRepo.save(_document);
         return new ResponseEntity<>(newDocument, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteCandidature(@PathVariable("id") Long id) {
+        documentRepo.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Document> updateUser(@RequestBody DocumentRequest doc ,
+                 @PathVariable("id") Long id) {
+
+        Gouvernement gouvernement =  gouvernementRepo.findByNom(doc.getGouvernement_nom()).get();
+        SiteRadio siteRadio = siteRadioService.findSiteRadioById(doc.getSiteRadio_id());
+        Document currentDocument = documentRepo.getById(id) ;
+        currentDocument.setgouvernement(gouvernement);
+        currentDocument.setSiteRadio(siteRadio);
+        currentDocument.setTypeDoc(doc.getTypeDoc());
+        Document updatedDoc = documentRepo.save(currentDocument);
+      
+        return new ResponseEntity<>(updatedDoc, HttpStatus.OK);
     }
 
     @PutMapping(value = "/updateDoc")

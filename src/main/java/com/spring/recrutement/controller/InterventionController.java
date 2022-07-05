@@ -16,24 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.recrutement.model.Intervention;
 import com.spring.recrutement.repo.InterventionRepo;
 
-
-
 @RestController
 @RequestMapping("/intervention")
 public class InterventionController {
-    
+
     @Autowired
-    InterventionRepo interventionRepo ;
+    InterventionRepo interventionRepo;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Intervention>> getAllCandidatures () {
+    public ResponseEntity<?> getAllCandidatures() {
 
-        List<Intervention> intervention = interventionRepo.findAll();
-        return new ResponseEntity<>(intervention, HttpStatus.OK);
+        // List<Intervention> intervention =
+        // interventionRepo.findAllInterventions().orElseThrow(
+        // ()-> new RuntimeException("Something gone wrong"));
+
+        return new ResponseEntity<List<Intervention>>(interventionRepo.findAllInterventions().get(), HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Intervention> getCandidatureById (@PathVariable("id") Long id) {
+    public ResponseEntity<Intervention> getCandidatureById(@PathVariable("id") Long id) {
         Intervention intervention = interventionRepo.findById(id).get();
         return new ResponseEntity<Intervention>(intervention, HttpStatus.OK);
     }

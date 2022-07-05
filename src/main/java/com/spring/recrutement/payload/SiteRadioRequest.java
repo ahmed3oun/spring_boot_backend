@@ -3,6 +3,7 @@ package com.spring.recrutement.payload;
 import java.util.Set;
 
 public class SiteRadioRequest {
+    private Long id ;
     private String access ;
     private String fournisseur ;
     private String HBA ;
@@ -19,6 +20,12 @@ public class SiteRadioRequest {
     private String gouvernement ;
 
 
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getAccess() {
         return access;
     }

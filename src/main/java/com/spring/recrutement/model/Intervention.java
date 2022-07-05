@@ -27,7 +27,7 @@ public class Intervention {
     @Column
     private String option ;
     
-    
+    public Intervention(){}
 
     public Intervention(Long id, String problem, String date, String observation, String fullname, String option) {
         this.id = id;
