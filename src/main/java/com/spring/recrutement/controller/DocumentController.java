@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.recrutement.Service.GouvernementService;
 import com.spring.recrutement.Service.SiteRadioService;
 import com.spring.recrutement.model.Document;
 import com.spring.recrutement.model.Gouvernement;
@@ -30,7 +29,6 @@ import com.spring.recrutement.model.SiteRadio;
 import com.spring.recrutement.payload.DocumentRequest;
 import com.spring.recrutement.repo.DocumentRepo;
 import com.spring.recrutement.repo.GouvernementRepo;
-import com.spring.recrutement.repo.SiteRadioRepo;
 
 @RestController
 @RequestMapping("/document")

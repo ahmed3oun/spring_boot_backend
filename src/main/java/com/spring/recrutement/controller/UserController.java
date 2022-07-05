@@ -2,20 +2,14 @@ package com.spring.recrutement.controller;
 
 import com.spring.recrutement.Service.RoleService;
 import com.spring.recrutement.Service.UserService;
-import com.spring.recrutement.config.MyUserDetails;
-import com.spring.recrutement.model.AuthRequest;
 import com.spring.recrutement.model.Role;
 import com.spring.recrutement.model.User;
 import com.spring.recrutement.payload.UserRequest;
-import com.spring.recrutement.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,7 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController

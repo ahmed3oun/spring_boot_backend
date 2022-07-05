@@ -7,7 +7,6 @@ import com.spring.recrutement.util.AuthEntryPointJwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -51,28 +50,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       // http.cors().disable();
-        /* http.csrf().disable().authorizeRequests()
-              //  .antMatchers("/user/**" , "/candidat/**" , "/offre/**" , "/candidature/**").hasAuthority("RH")
-              //  .antMatchers("/candidat/all", "/offre/all" , "/candidature/all" , "/candidature/update" ).hasAuthority("MANAGER")
-               // .antMatchers("/candidat/all", "/offre/all" , "/candidature/all" ).hasAuthority("USER")
-               .antMatchers("/app/login").permitAll()
-                .antMatchers("/intervention/**" ).hasAuthority("INTERVENTION")
-                .anyRequest().authenticated()
-                .and().formLogin()
-                .and().exceptionHandling().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ; */
+       
                 http./*cors().and().*/csrf().disable().exceptionHandling()
 				.authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
-				.antMatchers("/app/**").permitAll()
+                /* Authorized APIs */
+				.antMatchers("/app/**",
+                "/gouvernement/all","/gouvernement/add","/gouvernement/find/**").permitAll()
+                /* Intervention authorized APIs */
 				.antMatchers("/intervention/**").hasAuthority("INTERVENTION")
-                .antMatchers("/siteradio/**","/cellule/**","/document/**").hasAuthority("USER")
-                .antMatchers("/siteradio/**","/cellule/**","/document/**").hasAuthority("MANAGER")
-                .antMatchers("/user/all","/siteradio/**","/cellule/**","/document/**").hasAuthority("ENGINEER")
-                .antMatchers("/user/**","/siteradio/**","/document/**","/gouvernement/**","/cellule/**","/role/**").hasAuthority("ADMIN")
+                /* USER authorized APIs */
+                .antMatchers(
+                "/siteradio/all","/siteradio/update","/siteradio/delete","/siteradio/add","/siteradio/find/**"
+                ,"/cellule/notUsed","/cellule/add","/cellule/all","/cellule/find/**","/cellule/update/**"
+                ,"/document/all","/document/add","/document/updateDoc","/document/update/**","/document/find/**"
+                ).hasAuthority("USER")
+                /* MANAGER authorized APIs */
+                .antMatchers(
+                "/siteradio/all","/siteradio/update","/siteradio/delete","/siteradio/add","/siteradio/find/**"
+                ,"/cellule/notUsed","/cellule/add","/cellule/all","/cellule/find/**","/cellule/update/**"
+                ,"/document/all","/document/add","/document/updateDoc","/document/update/**","/document/find/**"
+                ).hasAuthority("MANAGER")
+                /* ENGINEER authorized APIs */
+                .antMatchers("/user/all"
+                ,"/siteradio/all","/siteradio/update","/siteradio/delete","/siteradio/add","/siteradio/find/**"
+                ,"/cellule/add","/cellule/all","/cellule/find/**","/cellule/notUsed","/cellule/update/**"
+                ,"/document/all","/document/add","/document/updateDoc","/document/update/**","/document/find/**"
+                ).hasAuthority("ENGINEER")
+                /* ADMIN authorized APIs */
+                .antMatchers(
+                "/user/all","/user/add","/user/find/**","/user/update","/user/updateimg","/user/delete/**"
+                ,"/siteradio/all","/siteradio/update","/siteradio/delete","/siteradio/add","/siteradio/find/**"
+                ,"/document/all","/document/add","/document/updateDoc","/document/update/**","/document/find/**"
+                ,"/cellule/notUsed","/cellule/add","/cellule/all","/cellule/find/**","/cellule/update/**"
+                ,"/role/add","/role/all"
+                ).hasAuthority("ADMIN")
+
 				.anyRequest()
 				.authenticated();
 
